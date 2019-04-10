@@ -5,8 +5,8 @@ ARG VCS_REF
 ARG SCHEMA_VERSION
 
 LABEL maintainer="Paul Sladek" \
-  org.label-schema.name="Jenkins Amazon Linux 2 jnlp slave" \
-  org.label-schema.description="Jenkins Amazon Linux 2 jnlp slave" \
+  org.label-schema.name="Jenkins Amazon Linux 2 JNLP slave" \
+  org.label-schema.description="Jenkins Amazon Linux 2 JNLP slave" \
   org.label-schema.usage="/README.md" \
   org.label-schema.url="https://github.com/pbsladek/jenkins-amazonlinux2-jnlp-slave" \
   org.label-schema.vcs-url="git@github.com:pbsladek/jenkins-amazonlinux2-jnlp-slave.git" \
@@ -44,6 +44,7 @@ RUN amazon-linux-extras enable epel docker && \
 
 # Required for PHP
 RUN yum -y install bison \
+  composer \
   dpkg-dev \
   dpkg-devel \
   gcc-c++ \
@@ -64,6 +65,7 @@ RUN yum -y install bison \
 # Java, Install corretto 11 but default to corretto8
 RUN curl -O https://d3pxv6yz143wms.cloudfront.net/11.0.2.9.3/java-11-amazon-corretto-devel-11.0.2.9-3.x86_64.rpm && \
   yum -y localinstall java-11-amazon-corretto-devel-11.0.2.9-3.x86_64.rpm && \
+  yum -y install maven && \
   alternatives --set java $JAVA_CORRETTO_8_PATH
 
 # PHP with phpenv
@@ -87,7 +89,8 @@ RUN curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-instal
   pyenv install 3.6.8 && \
   pyenv global 3.6.8 && \
   pip install --upgrade pip && \
-  pyenv rehash
+  pyenv rehash && \
+  pip install awscli
 
 # Node with nodenv
 RUN git clone https://github.com/nodenv/nodenv.git ~/.nodenv && \
@@ -99,22 +102,13 @@ RUN git clone https://github.com/nodenv/nodenv.git ~/.nodenv && \
   nodenv install 8.15.1 && \
   nodenv install 10.15.3 && \
   nodenv global 10.15.3 && \
-  nodenv rehash
-
-# Install build tools
-RUN yum install maven && \
-  npm install -g yarn && \
-  pip install awscli
+  nodenv rehash && \
+  npm install -g yarn
 
 # Cleanup
 RUN rm -rf /tmp/* && yum clean all && rm -rf /var/cache/yum
 
-# Final global versions
-RUN java -version && \
-  node --version && \
-  php --version && \
-  python --version && \
-  pip --version
+USER jenkins
 
 COPY jenkins-slave /usr/local/bin/jenkins-slave
 
