@@ -43,9 +43,9 @@ It seeks to maintain a general jenkins slave build image that has a number of co
   
 ### Tools
 
-- [docker](https://www.docker.com/) ()
-- [awscli](https://docs.aws.amazon.com/cli/latest/reference/)
-- [jq](https://stedolan.github.io/jq/)
+- [docker](https://www.docker.com/) (18.06.1-ce)
+- [awscli](https://docs.aws.amazon.com/cli/latest/reference/) (aws-cli/1.16.140 Python/3.6.8 Linux/4.9.125-linuxkit botocore/1.12.130)
+- [jq](https://stedolan.github.io/jq/)(jq-1.5)
 
 ## Running
 
