@@ -21,6 +21,8 @@ It seeks to maintain a general jenkins slave build image that has a number of co
 - Use [alternatives](https://linux.die.net/man/8/alternatives) to switch versions
   - alternatives --set java $JAVA_CORRETTO_8_PATH
   - alternatives --set java $JAVA_CORRETTO_11_PATH
+  - Then `source ~/.bashrc` to correctly set JAVA_HOME
+    - `alternatives --set java $JAVA_CORRETTO_8_PATH && source ~/.bashrc`
 
 ### Node
 - [Node Dubnium 10.15.3](https://nodejs.org/ko/blog/release/v10.15.3/) - Default
@@ -45,7 +47,7 @@ It seeks to maintain a general jenkins slave build image that has a number of co
 
 - [docker](https://www.docker.com/) (18.06.1-ce)
 - [awscli](https://docs.aws.amazon.com/cli/latest/reference/) (aws-cli/1.16.140 Python/3.6.8 Linux/4.9.125-linuxkit botocore/1.12.130)
-- [jq](https://stedolan.github.io/jq/)(jq-1.5)
+- [jq](https://stedolan.github.io/jq/) (jq-1.5)
 
 ## Running
 

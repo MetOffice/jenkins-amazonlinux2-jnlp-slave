@@ -16,6 +16,7 @@ LABEL maintainer="Paul Sladek" \
 
 # Use alternatives to switch between java versions
 # alternatives --set java $JAVA_CORRETTO_8_PATH
+# source ~/.bashrc to correctly set JAVA_HOME
 ENV JAVA_CORRETTO_8_PATH /usr/lib/jvm/java-1.8.0-amazon-corretto.x86_64/jre/bin/java
 ENV JAVA_CORRETTO_11_PATH /usr/lib/jvm/java-11-amazon-corretto/bin/java
 
@@ -66,7 +67,9 @@ RUN yum -y install bison \
 RUN curl -O https://d3pxv6yz143wms.cloudfront.net/11.0.2.9.3/java-11-amazon-corretto-devel-11.0.2.9-3.x86_64.rpm && \
   yum -y localinstall java-11-amazon-corretto-devel-11.0.2.9-3.x86_64.rpm && \
   yum -y install maven && \
-  alternatives --set java $JAVA_CORRETTO_8_PATH
+  alternatives --set java $JAVA_CORRETTO_8_PATH && \
+  echo 'export JAVA_HOME=$(readlink -f /usr/bin/java | sed "s:bin/java::")' >> ~/.bashrc && \
+  source ~/.bashrc
 
 # PHP with phpenv
 RUN git clone git://github.com/phpenv/phpenv.git ~/.phpenv && \
@@ -107,6 +110,9 @@ RUN git clone https://github.com/nodenv/nodenv.git ~/.nodenv && \
 
 # Cleanup
 RUN rm -rf /tmp/* && yum clean all && rm -rf /var/cache/yum
+
+# Allow jenkins user to change versions
+RUN chown -R jenkins:jenkins ~/.nodenv ~/.npm ~/.phpenv ~/.pyenv /var/lib/alternatives
 
 USER jenkins
 
