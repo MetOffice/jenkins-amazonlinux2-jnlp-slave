@@ -15,14 +15,14 @@ It seeks to maintain a general jenkins slave build image that has a number of co
 ## Supported
 
 ### Java
-- [Corretto 8](https://aws.amazon.com/corretto/) (Managed Java 8) - Default
-- [Corretto 11](https://aws.amazon.com/corretto/)(Managed Java 11)
-- [Maven](https://maven.apache.org/)
+- [Corretto 8](https://aws.amazon.com/corretto/) (OpenJDK Java 8) - Default
+- [Corretto 11](https://aws.amazon.com/corretto/)(OpenJDK Java 11)
+- [Maven 3.6.0](https://maven.apache.org/)
 - Use [alternatives](https://linux.die.net/man/8/alternatives) to switch versions
   - alternatives --set java $JAVA_CORRETTO_8_PATH
   - alternatives --set java $JAVA_CORRETTO_11_PATH
   - Then `source ~/.bashrc` to correctly set JAVA_HOME
-    - `alternatives --set java $JAVA_CORRETTO_8_PATH && source ~/.bashrc`
+    - `sudo alternatives --set java $JAVA_CORRETTO_8_PATH && source ~/.bashrc`
 
 ### Node
 - [Node Dubnium 10.15.3](https://nodejs.org/ko/blog/release/v10.15.3/) - Default
@@ -33,13 +33,18 @@ It seeks to maintain a general jenkins slave build image that has a number of co
   
 ### Python
 - [Python 3.6.8](https://www.python.org/downloads/release/python-368/) - Default
-- [Python 2.7.15](https://www.python.org/downloads/release/python-2715/)
+- [Python 2.7.14](https://www.python.org/downloads/release/python-2714/) - System
 - [pip](https://pypi.org/project/pip/)
 - [pyenv](https://github.com/pyenv/pyenv)
 
+### Golang
+- [Golang 1.12.3](https://golang.org/doc/go1.12) - Default
+- [Golang 1.11.8](https://golang.org/doc/go1.11)
+- [goenv](https://github.com/syndbg/goenv)
+
 ### PHP
-- [PHP 7.3.4](https://www.php.net/releases/7_3_4.php) - Default
-- [PHP 7.0.31](https://www.php.net/releases/7_0_31.php)
+- [PHP 7.0.31](https://www.php.net/releases/7_0_31.php) - Default
+- [PHP 7.3.3](https://www.php.net/releases/7_3_3.php) - System
 - [Composer](https://getcomposer.org/)
 - [phpenv](https://github.com/phpenv/phpenv)
   
