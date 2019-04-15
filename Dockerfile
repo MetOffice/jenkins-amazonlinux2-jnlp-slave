@@ -11,6 +11,7 @@ ARG EXTRA_PHP=7.3.3
 ARG MAVEN_VERSION=3.6.0
 ARG PYTHON_DEFAULT_VERSION=3.6.8
 ARG PHP_DEFAULT_VERSION=7.0.31
+ARG GO_DEFAULT_VERSION=1.12.3
 ARG NODE_DEFAULT_VERSION=10.15.3
 ARG NODE_OLD_LTS_VERSION=8.15.1
 ARG CORRETTO_RPM=java-11-amazon-corretto-devel-11.0.2.9-3.x86_64.rpm
@@ -93,12 +94,10 @@ RUN amazon-linux-extras enable php7.3=$EXTRA_PHP && \
 # Java, Install corretto 11 but default to corretto8
 RUN curl -O https://d3pxv6yz143wms.cloudfront.net/11.0.2.9.3/$CORRETTO_RPM && \
   yum -y localinstall $CORRETTO_RPM && \
+  alternatives --set java $JAVA_CORRETTO_8_PATH && \
   wget https://www-us.apache.org/dist/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz -P /tmp && \
   tar xf /tmp/apache-maven-$MAVEN_VERSION-bin.tar.gz -C /opt && \
-  ln -s /opt/apache-maven-$MAVEN_VERSION /opt/maven && \
-  alternatives --set java $JAVA_CORRETTO_8_PATH && \
-  echo 'export JAVA_HOME=$(readlink -f /usr/bin/java | sed "s:bin/java::")' >> $HOME/.bash_profile && \
-  source $HOME/.bash_profile
+  ln -s /opt/apache-maven-$MAVEN_VERSION /opt/maven
 
 # Goland with goenv
 RUN git clone https://github.com/syndbg/goenv.git $HOME/.goenv && \
@@ -107,7 +106,8 @@ RUN git clone https://github.com/syndbg/goenv.git $HOME/.goenv && \
   echo 'export PATH="$GOROOT/bin:$PATH"' >> $HOME/.bash_profile && \
   echo 'export PATH="$GOPATH/bin:$PATH"' >> $HOME/.bash_profile && \
   source $HOME/.bash_profile && \
-  goenv global $EXTRA_GOLANG && \
+  goenv install $GO_DEFAULT_VERSION && \
+  goenv global $GO_DEFAULT_VERSION && \
   goenv rehash
 
 # Python with pyenv
