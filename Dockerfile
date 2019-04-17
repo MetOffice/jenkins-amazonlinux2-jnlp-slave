@@ -91,6 +91,13 @@ RUN amazon-linux-extras enable php7.3=$EXTRA_PHP && \
   re2c \
   which
 
+# Install Rundeck cli
+RUN wget https://bintray.com/rundeck/rundeck-rpm/rpm -O bintray.repo && \
+  mv bintray.repo /etc/yum.repos.d/ && \
+  sed -i.bak s/^gpgcheck=0/gpgcheck=1/ /etc/yum.repos.d/bintray.repo && \
+  echo "gpgkey=http://rundeck.org/keys/BUILD-GPG-KEY-Rundeck.org.key" >> /etc/yum.repos.d/bintray.repo && \
+  yum -y install rundeck-cli
+
 # Java, Install corretto 11 but default to corretto8
 RUN curl -O https://d3pxv6yz143wms.cloudfront.net/11.0.2.9.3/$CORRETTO_RPM && \
   yum -y localinstall $CORRETTO_RPM && \
