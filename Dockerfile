@@ -4,6 +4,7 @@ ARG BUILD_DATE
 ARG VCS_REF
 ARG SCHEMA_VERSION
 
+ARG JAVA_OPTS
 ARG EXTRA_GOLANG=1.11.3
 ARG EXTRA_DOCKER=18.06.1
 ARG EXTRA_EPEL=7.11
@@ -36,6 +37,9 @@ ENV PHP_ENV_PATH $HOME/.phpenv/shims:$HOME/.phpenv/bin:$HOME/.composer/vendor/bi
 ENV TOOLS_ENV_PATH /opt/maven/bin
 ENV DEFAULT_PATH /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 ENV PATH ${NODE_ENV_PATH}:${GO_ENV_PATH}:${PY_ENV_PATH}:${PHP_ENV_PATH}:${TOOLS_ENV_PATH}:${DEFAULT_PATH}
+
+ENV JAVA_OPTS "-Dfile.encoding=UTF-8 \
+  -Dorg.apache.commons.jelly.tags.fmt.timeZone=America/Los_Angeles ${JAVA_OPTS:-}"
 
 USER root
 
