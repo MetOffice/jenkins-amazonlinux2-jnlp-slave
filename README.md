@@ -21,8 +21,8 @@ It seeks to maintain a general jenkins slave build image that has a number of co
 - Use [alternatives](https://linux.die.net/man/8/alternatives) to switch versions
   - alternatives --set java $JAVA_CORRETTO_8_PATH
   - alternatives --set java $JAVA_CORRETTO_11_PATH
-  - Then `source ~/.bashrc` to correctly set JAVA_HOME
-    - `sudo alternatives --set java $JAVA_CORRETTO_8_PATH && source ~/.bashrc`
+  - `sudo alternatives --set java $JAVA_CORRETTO_8_PATH`
+  - JAVA_HOME will correctly point to the new version since it points to `/usr/lib/jvm/java`
 
 ### Node
 - [Node Dubnium 10.15.3](https://nodejs.org/ko/blog/release/v10.15.3/) - Default
