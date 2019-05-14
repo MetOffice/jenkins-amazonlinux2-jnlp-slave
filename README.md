@@ -20,8 +20,13 @@ It seeks to maintain a general jenkins slave build image that has a number of co
 - [Maven 3.6.0](https://maven.apache.org/)
 - Use [alternatives](https://linux.die.net/man/8/alternatives) to switch versions
   - alternatives --set java $JAVA_CORRETTO_8_PATH
+  - alternatives --set javac $JAVAC_CORRETTO_8_PATH
   - alternatives --set java $JAVA_CORRETTO_11_PATH
+  - alternatives --set javac $JAVAC_CORRETTO_11_PATH
   - `sudo alternatives --set java $JAVA_CORRETTO_8_PATH`
+  - `sudo alternatives --set javac $JAVAC_CORRETTO_8_PATH`
+  - `sudo alternatives --set java $JAVA_CORRETTO_11_PATH`
+  - `sudo alternatives --set javac $JAVAC_CORRETTO_11_PATH`
   - JAVA_HOME will correctly point to the new version since it points to `/usr/lib/jvm/java`
 
 ### Node

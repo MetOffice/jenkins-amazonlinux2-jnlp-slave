@@ -28,7 +28,9 @@ LABEL maintainer="Paul Sladek" \
   org.label-schema.schema-version=$SCHEMA_VERSION
 
 ENV JAVA_CORRETTO_8_PATH /usr/lib/jvm/java-1.8.0-amazon-corretto.x86_64/jre/bin/java
+ENV JAVAC_CORRETTO_8_PATH /usr/lib/jvm/java-1.8.0-amazon-corretto.x86_64/bin/javac
 ENV JAVA_CORRETTO_11_PATH /usr/lib/jvm/java-11-amazon-corretto/bin/java
+ENV JAVAC_CORRETTO_11_PATH /usr/lib/jvm/java-11-amazon-corretto/bin/javac
 
 ENV NODE_ENV_PATH $HOME/.nodenv/shims:$HOME/.nodenv/bin
 ENV GO_ENV_PATH $HOME/.goenv/bin
@@ -106,6 +108,7 @@ RUN wget https://bintray.com/rundeck/rundeck-rpm/rpm -O bintray.repo && \
 RUN curl -O https://d3pxv6yz143wms.cloudfront.net/11.0.2.9.3/$CORRETTO_RPM && \
   yum -y localinstall $CORRETTO_RPM && \
   alternatives --set java $JAVA_CORRETTO_8_PATH && \
+  alternatives --set javac $JAVAC_CORRETTO_8_PATH && \
   wget https://www-us.apache.org/dist/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz -P /tmp && \
   tar xf /tmp/apache-maven-$MAVEN_VERSION-bin.tar.gz -C /opt && \
   ln -s /opt/apache-maven-$MAVEN_VERSION /opt/maven
