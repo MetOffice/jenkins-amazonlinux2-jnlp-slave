@@ -1,5 +1,7 @@
 FROM pwbsladek/jenkins-amazonlinux2-jnlp-slave-base:latest
 
+SHELL ["/bin/bash", "-c"]
+
 ARG BUILD_DATE
 ARG VCS_REF
 ARG SCHEMA_VERSION
@@ -16,6 +18,7 @@ ARG GO_DEFAULT_VERSION=1.12.3
 ARG NODE_DEFAULT_VERSION=10.15.3
 ARG NODE_OLD_LTS_VERSION=8.15.1
 ARG CORRETTO_RPM=java-11-amazon-corretto-devel-11.0.2.9-3.x86_64.rpm
+ARG NUXEO_VERSION=release-10.10-HF10
 
 LABEL maintainer="Paul Sladek" \
   org.label-schema.name="Jenkins Amazon Linux 2 JNLP slave" \
@@ -44,6 +47,9 @@ ENV JAVA_OPTS "-Dfile.encoding=UTF-8 \
   -Dorg.apache.commons.jelly.tags.fmt.timeZone=America/Los_Angeles ${JAVA_OPTS:-}"
 
 USER root
+
+RUN export PATH=$PATH
+RUN export MAVEN_OPTS="-Xss50M -Xmx4000M -XX:+CMSClassUnloadingEnabled"
 
 # Required for builds
 RUN amazon-linux-extras enable epel=$EXTRA_EPEL docker=$EXTRA_DOCKER golang1.11=$EXTRA_GOLANG && \
@@ -147,7 +153,9 @@ RUN git clone https://github.com/nodenv/nodenv.git $HOME/.nodenv && \
   nodenv install $NODE_DEFAULT_VERSION && \
   nodenv global $NODE_DEFAULT_VERSION && \
   nodenv rehash && \
-  npm install -g yarn
+  node --version && \
+  # --unsafe-perm for tmp workaround on polymer-cli issues
+  npm install -g yarn gulp grunt grunt-cli polymer-cli bower yo --unsafe-perm
 
 # PHP with phpenv
 RUN git clone git://github.com/phpenv/phpenv.git $HOME/.phpenv && \
@@ -172,6 +180,12 @@ RUN chown -R jenkins:jenkins $HOME/.nodenv $HOME/.npm $HOME/.goenv $HOME/.pyenv 
 USER jenkins
 
 RUN export PATH=$PATH
+
+# Init maven nuxeo cache to reduce build times
+RUN git clone https://github.com/nuxeo/nuxeo && \
+  cd nuxeo && git checkout $NUXEO_VERSION && \
+  mvn install -DskipTests && \
+  cd .. && rm -rf nuxeo
 
 COPY jenkins-slave /usr/local/bin/jenkins-slave
 
