@@ -67,7 +67,7 @@ RUN curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-instal
 
 
 # Allow jenkins user to change versions
-RUN chown -R jenkins:jenkins $HOME/.pyenv $HOME/.config && \
+RUN chown -R jenkins:jenkins $HOME/.pyenv && \
   echo '%jenkins ALL=(root) NOPASSWD:/usr/sbin/alternatives' >> /etc/sudoers
 
 USER jenkins
