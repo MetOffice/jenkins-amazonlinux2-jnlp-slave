@@ -6,7 +6,7 @@ ARG BUILD_DATE
 ARG VCS_REF
 ARG SCHEMA_VERSION
 
-ARG PYTHON_DEFAULT_VERSION=3.8.1
+ARG PYTHON_DEFAULT_VERSION=3.6.6
 
 LABEL maintainer="Paul Sladek" \
   org.label-schema.name="Jenkins Amazon Linux 2 JNLP slave" \
