@@ -49,7 +49,8 @@ RUN amazon-linux-extras enable epel=$EXTRA_EPEL docker=$EXTRA_DOCKER golang1.11=
   tar \
   tk-devel \
   wget \
-  zlib-devel
+  zlib-devel \
+  libffi-devel
 
 # Python with pyenv
 RUN curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash && \
