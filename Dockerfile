@@ -59,9 +59,9 @@ RUN curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-instal
   source $HOME/.bash_profile && \
   pyenv install $PYTHON_DEFAULT_VERSION && \
   pyenv global $PYTHON_DEFAULT_VERSION && \
-  pip install --no-cache-dir  --upgrade pip && \
+  pip install --no-cache-dir --upgrade pip && \
   pyenv rehash && \
-  pip install --no-cache-dir  awscli
+  pip install --no-cache-dir awscli
 
 
 
